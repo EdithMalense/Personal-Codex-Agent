@@ -25,7 +25,7 @@ streamlit run app.py
 **Note:** Only `torch` and `transformers` are needed for embeddings - no heavy `sentence-transformers` package required!
 
 ## Deployment
-- **Streamlit Cloud**: set `OPENAI_API_KEY` as a secret.
+- **Streamlit Cloud**: set `HF_API_TOKEN` as a secret.
 - Note: First run will download the HuggingFace model (~90MB for all-MiniLM-L6-v2)
 
 ### Key Features
@@ -159,7 +159,7 @@ Currently using basic semantic similarity. Would extend with:
 ### Deployment Process
 1. Pushed to GitHub with secrets management
 2. Connected Streamlit Cloud to repository
-3. Added OpenAI API key to Streamlit secrets
+3. Added HF API key to Streamlit secrets
 4. Automatic deployments on push to main branch
 
 ## Technical Details
