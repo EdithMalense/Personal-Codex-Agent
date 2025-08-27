@@ -1,0 +1,7 @@
+streamlit
+chromadb
+pypdf
+openai
+torch 
+transformers
+requests
