@@ -7,10 +7,10 @@ from datetime import datetime
 from typing import List, Dict, Any
 from pathlib import Path
 import requests
-import chromadb
-import pypdf
-import torch
-from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM, pipeline
+# import chromadb
+# import pypdf
+# import torch
+# from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM, pipeline
 
 
 import streamlit as st
