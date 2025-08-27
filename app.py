@@ -7,6 +7,10 @@ from datetime import datetime
 from typing import List, Dict, Any
 from pathlib import Path
 import requests
+import chromadb
+import pypdf
+import torch
+from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM, pipeline
 
 
 import streamlit as st
@@ -43,13 +47,6 @@ except Exception:
     AutoModelForCausalLM = None
     pipeline = None
     MISSING_DEPS.append("transformers")
-
-# Remove OpenAI dependency
-# try:
-#     import openai
-# except Exception:
-#     openai = None
-#     MISSING_DEPS.append("openai")
 
 
 # -------------------------------
@@ -671,83 +668,3 @@ if user_q:
         st.markdown(answer)
     st.session_state.history.append(("assistant", answer))
     st.session_state.artifact_log.append({"ts": datetime.utcnow().isoformat(), "role": "assistant", "content": answer})
-
-
-# ----------------------------
-# Downloads: Artifacts & README stub
-# ----------------------------
-
-# st.markdown("---")
-# st.subheader("🔍 Export: Build Artifacts & README stub")
-
-# colA, colB = st.columns(2)
-# with colA:
-#     if st.session_state.artifact_log:
-#         artifacts_jsonl = "\n".join(json.dumps(x, ensure_ascii=False) for x in st.session_state.artifact_log)
-#         st.download_button(
-#             label="Download artifacts (JSONL)",
-#             data=artifacts_jsonl,
-#             file_name="artifacts.jsonl",
-#             mime="application/json",
-#         )
-#     else:
-#         st.caption("Artifacts will appear after your first chat.")
-
-# with colB:
-#     readme_template = f"""# Personal Codex Agent (RAG) - HuggingFace Edition
-
-# A lightweight, context-aware chatbot that answers questions about the candidate using Retrieval-Augmented Generation with HuggingFace embeddings.
-
-# ## Stack
-# - Streamlit (UI)
-# - ChromaDB (vector store)
-# - HuggingFace Transformers (embeddings - runs locally)
-# - OpenAI (LLM: gpt-4o-mini by default)
-
-# ## How it works
-# 1. Upload CV + supporting docs (PDF/TXT/MD).
-# 2. The app extracts text, chunks it, and builds a ChromaDB index with HuggingFace embeddings (local).
-# 3. On each query, top-k chunks are retrieved using HuggingFace embeddings and sent to OpenAI LLM.
-# 4. Responses cite sources by document title and chunk.
-
-# ## Run locally
-# ```bash
-# pip install streamlit chromadb pypdf openai torch transformers
-# export OPENAI_API_KEY=YOUR_KEY
-# streamlit run app.py
-# ```
-
-# **Note:** Only `torch` and `transformers` are needed for embeddings - no heavy `sentence-transformers` package required!
-
-# ## Deployment
-# - **Streamlit Cloud**: set `OPENAI_API_KEY` as a secret.
-# - Note: First run will download the HuggingFace model (~90MB for all-MiniLM-L6-v2)
-
-# ## Available Embedding Models
-# - sentence-transformers/all-MiniLM-L6-v2 (default, fast)
-# - sentence-transformers/all-mpnet-base-v2 (better quality)
-# - sentence-transformers/paraphrase-MiniLM-L6-v2
-# - sentence-transformers/distilbert-base-nli-mean-tokens
-
-# ## Modes
-# - Interview, Personal storytelling, Fast facts, Humble brag, Self-reflection.
-
-# ## Benefits of HuggingFace Embeddings
-# - No API costs for embeddings (runs locally)
-# - Works offline once model is downloaded
-# - Multiple model options for different quality/speed tradeoffs
-# - Embeddings are cached locally for faster rebuilds
-
-# ## Show Your Thinking
-# - The app logs prompt/response artifacts. Download them as JSONL and include in your repo.
-# """
-#     st.download_button(
-#         label="Download README template",
-#         data=readme_template,
-#         file_name="README.md",
-#         mime="text/markdown",
-#     )
-
-# st.markdown("""
-# <small>Tip: Include the artifacts JSONL and your docs in your Git repo. Add a short 3–5 minute Loom walkthrough showing the modes and how answers cite your docs.</small>
-# """, unsafe_allow_html=True)
