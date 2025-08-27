@@ -21,10 +21,15 @@ try:
     import chromadb
     from chromadb.config import Settings
     from chromadb.utils import embedding_functions
+    client = chromadb.Client(Settings(
+        chroma_db_impl="duckdb+parquet",   # Use DuckDB instead of SQLite
+        persist_directory=".chromadb"       # Optional: store DB locally
+    ))
 except Exception:
     chromadb = None
     Settings = None
     embedding_functions = None
+    client = None
     MISSING_DEPS.append("chromadb")
 
 try:
