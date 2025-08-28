@@ -18,7 +18,6 @@ from typing import List, Dict, Any
 from pathlib import Path
 import requests
 import chromadb
-import duckdb 
 import pypdf
 import torch
 from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM, pipeline
