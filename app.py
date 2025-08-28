@@ -4,8 +4,9 @@ import types
 # ----------------------------
 # Monkey-patch sqlite3 to bypass Chroma's SQLite version check
 # ----------------------------
-fake_sqlite3 = types.SimpleNamespace()
-sys.modules['sqlite3'] = fake_sqlite3
+class FakeSQLite:
+    sqlite_version_info = (3, 40, 0)  # anything >= 3.35
+sys.modules['sqlite3'] = FakeSQLite()
 
 import os
 import io
