@@ -1,3 +1,12 @@
+import sys
+import types
+
+# ----------------------------
+# Monkey-patch sqlite3 to bypass Chroma's SQLite version check
+# ----------------------------
+fake_sqlite3 = types.SimpleNamespace()
+sys.modules['sqlite3'] = fake_sqlite3
+
 import os
 import io
 import json
@@ -8,6 +17,7 @@ from typing import List, Dict, Any
 from pathlib import Path
 import requests
 import chromadb
+import duckdb 
 import pypdf
 import torch
 from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM, pipeline

@@ -1,6 +1,5 @@
 streamlit
 chromadb==1.0.20      # Uses DuckDB backend automatically
-duckdb     # needed for ChromaDB DuckDB backend
 pypdf
 openai
 torch 
