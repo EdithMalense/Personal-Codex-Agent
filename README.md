@@ -2,8 +2,8 @@
 
 A context-aware AI agent that answers questions about me as a candidate, built with RAG (Retrieval-Augmented Generation) and multiple personality modes.
 
-🚀 **Live Demo**:  https://personal-codex-agent-4r8fbhlbqy48sv7gywvgj8.streamlit.app/ 
-📹 **Video Walkthrough**: [Your demo video link here]
+🚀 **App Link**:  https://personal-codex-agent-4r8fbhlbqy48sv7gywvgj8.streamlit.app/ 
+
 
 ## Overview
 
