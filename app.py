@@ -18,6 +18,8 @@ from typing import List, Dict, Any
 from pathlib import Path
 import requests
 import chromadb
+from chromadb.config import Settings
+from chromadb.utils import embedding_functions
 import pypdf
 import torch
 from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM, pipeline
@@ -27,42 +29,30 @@ import streamlit as st
 
 # --- Optional dependencies: handled gracefully if missing ---
 MISSING_DEPS = []
+# ChromaDB client initialization
 try:
-    import chromadb
-    from chromadb.config import Settings
-    from chromadb.utils import embedding_functions
     client = chromadb.Client(Settings(
-        chroma_db_impl="duckdb+parquet",   # Use DuckDB instead of SQLite
-        persist_directory=".chromadb"       # Optional: store DB locally
+        chroma_db_impl="duckdb+parquet",  # Use DuckDB instead of SQLite
+        persist_directory=".chromadb"  # Optional: store DB locally
     ))
-except Exception:
-    chromadb = None
-    Settings = None
-    embedding_functions = None
-    client = None
-    MISSING_DEPS.append("chromadb")
+except Exception as e:
+    print(f"ChromaDB client initialization failed: {e}")
+    try:
+        # Fallback to default client
+        client = chromadb.Client()
+        print("Using default ChromaDB client")
+    except Exception as e2:
+        print(f"Default ChromaDB client also failed: {e2}")
+        client = None
+        MISSING_DEPS.append("chromadb")
 
-try:
-    import pypdf
-except Exception:
-    pypdf = None
+# Check if other imports are working (this is just for runtime checks)
+if pypdf is None:
     MISSING_DEPS.append("pypdf")
-
-try:
-    import torch
-except Exception:
-    torch = None
+if torch is None:
     MISSING_DEPS.append("torch")
-
-try:
-    from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM, pipeline
-except Exception:
-    AutoModel = None
-    AutoTokenizer = None
-    AutoModelForCausalLM = None
-    pipeline = None
+if AutoModel is None or AutoTokenizer is None:
     MISSING_DEPS.append("transformers")
-
 
 # -------------------------------
 # Minimal HuggingFace Embedding Function
