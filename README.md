@@ -199,9 +199,6 @@ Currently using basic semantic similarity. Would extend with:
 - [ ] **Self-reflective Agent Mode** (planned)
 
 ## Demo Video
-
-[Embed or link to your 5-minute walkthrough video]
-
 **Video Covers**:
 - Live demonstration of the agent
 - Different personality modes in action
